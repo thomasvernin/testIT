@@ -85,10 +85,16 @@
         </div>
         <div id="result"></div>
         <button class="retry-btn" id="retry" style="display: none;" onclick="retryQuiz()">Refaire le quiz</button>
+        <button class="retry-btn" id="send-email-btn" style="display: none;" onclick="sendResultsByEmail()">Envoyer mes résultats par email</button>
     </div>
     <footer>Agence Menway Emploi Angers</footer>
 
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.latest.js"></script>
+
     <script>
+        // Initialisation d'EmailJS avec ta Public Key
+        emailjs.init("r7BoN8toOngeOfpb-");  // Remplace par ta Public Key
+
         const quizData = [
             {
                 question: "Que signifie HTML ?",
@@ -146,6 +152,7 @@
             document.getElementById('quiz').style.display = 'none';
             document.getElementById('result').innerText = `Vous avez obtenu ${score} sur ${quizData.length}`;
             document.getElementById('retry').style.display = 'block';
+            document.getElementById('send-email-btn').style.display = 'block'; // Montre le bouton d'envoi
         }
 
         function retryQuiz() {
@@ -154,13 +161,40 @@
             document.getElementById('quiz').style.display = 'block';
             document.getElementById('result').innerText = '';
             document.getElementById('retry').style.display = 'none';
+            document.getElementById('send-email-btn').style.display = 'none'; // Cache le bouton d'envoi
             loadQuestion();
+        }
+
+        // Fonction d'envoi des résultats par email
+        function sendResultsByEmail() {
+            const templateParams = {
+                to_email: 'tvernin49100@gmail.com', // Destinataire : ton adresse email
+                subject: 'Résultats du test technique Frontend',
+                score: score, // Remplace par le score actuel
+                total: quizData.length // Nombre total de questions
+            };
+
+            // Utilisation du Service ID et Template ID corrects
+            emailjs.send("service_vltuh69", "template_jqnfmfe", templateParams)
+                .then(function(response) {
+                    alert('Résultats envoyés par email !');
+                }, function(error) {
+                    alert('Erreur lors de l\'envoi : ' + error.text);
+                });
         }
 
         loadQuestion();
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 
