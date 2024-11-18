@@ -63,6 +63,11 @@
         .retry-btn:hover {
             background-color: #218838;
         }
+        .question-counter {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #555;
+        }
         footer {
             margin-top: 20px;
             font-size: 14px;
@@ -74,6 +79,7 @@
     <h1>Test technique : développeur frontend</h1>
     <div class="quiz-container">
         <div id="quiz">
+            <div class="question-counter" id="question-counter">Question 1 sur 3</div>
             <div class="question" id="question">Chargement de la question...</div>
             <div class="options" id="options"></div>
         </div>
@@ -104,7 +110,12 @@
         let currentQuestionIndex = 0;
         let score = 0;
 
+        function updateCounter() {
+            document.getElementById('question-counter').innerText = `Question ${currentQuestionIndex + 1} sur ${quizData.length}`;
+        }
+
         function loadQuestion() {
+            updateCounter();
             const currentQuestion = quizData[currentQuestionIndex];
             document.getElementById('question').innerText = currentQuestion.question;
             const optionsContainer = document.getElementById('options');
@@ -150,5 +161,6 @@
     </script>
 </body>
 </html>
+
 
 
