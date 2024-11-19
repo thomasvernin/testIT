@@ -10,16 +10,19 @@
     <h1>Test technique : développeur frontend</h1>
     <div id="start-container">
         <button class="start-btn" id="start-btn" onclick="startQuiz()">Commencer le Quiz</button>
+        <p class="timer-info">Vous avez un temps imparti de 1 minute</p>
     </div>
     <div class="quiz-container" id="quiz-container" style="display: none;">
         <div id="timer">Temps restant : 60s</div> <!-- Chronomètre -->
+        <button class="menu-btn" id="menu-btn" onclick="goToMenu()">Revenir au menu</button>
         <div id="quiz">
             <div class="question-counter" id="question-counter">Question 1 sur 3</div>
             <div class="question" id="question">Chargement de la question...</div>
             <div class="options" id="options"></div>
         </div>
         <div id="result"></div>
-        <button class="retry-btn" id="retry" style="display: none;" onclick="retryQuiz()">Refaire le quiz</button>
+        <button class="corrige-btn" id="corrige-btn" style="display: none;" onclick="showCorrige()">Accéder au corrigé</button> <!-- Nouveau bouton -->
+        <button class="retry-btn" id="retry" style="display: none;" onclick="retryQuiz()"> Refaire le Quiz </button>
     </div>
     <footer>Agence Menway Emploi Angers</footer>
     <script src="script.js"></script>

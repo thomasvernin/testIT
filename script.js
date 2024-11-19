@@ -20,6 +20,7 @@ let currentQuestionIndex = 0;
 let score = 0;
 let timer; // Pour stocker le minuteur
 let timeLeft = 60; // Temps restant en secondes
+let isQuizFinished = false; // Vérifier si le quiz est terminé
 
 function startQuiz() {
     document.getElementById('start-container').style.display = 'none';
@@ -65,6 +66,7 @@ function startTimer() {
     timerElement.innerText = `Temps restant : ${timeLeft}s`;
 
     timer = setInterval(() => {
+        if (isQuizFinished) return; // Si le quiz est terminé, on arrête le minuteur
         timeLeft--;
         timerElement.innerText = `Temps restant : ${timeLeft}s`;
 
@@ -77,20 +79,54 @@ function startTimer() {
 
 function endQuiz() {
     clearInterval(timer); // S'assure que le minuteur est arrêté
+    isQuizFinished = true; // Le quiz est maintenant terminé
     document.getElementById('quiz').style.display = 'none';
     document.getElementById('result').innerText = `Vous avez obtenu ${score} sur ${quizData.length}`;
     document.getElementById('retry').style.display = 'block';
+    document.getElementById('corrige-btn').style.display = 'block'; // Affiche le bouton pour accéder au corrigé
 }
 
 function retryQuiz() {
     currentQuestionIndex = 0;
     score = 0;
     timeLeft = 60; // Réinitialise le chronomètre
+    isQuizFinished = false; // Réinitialise l'état du quiz
     document.getElementById('quiz').style.display = 'block';
     document.getElementById('result').innerText = '';
     document.getElementById('retry').style.display = 'none';
+    document.getElementById('corrige-btn').style.display = 'none'; // Cache le bouton de corrigé
     startTimer(); // Redémarre le chronomètre
     loadQuestion();
 }
+
+function showCorrige() {
+    const corrigeContainer = document.getElementById('result');
+    corrigeContainer.innerHTML = `<h3>Corrigé :</h3>`;
+    quizData.forEach((question, index) => {
+        const userAnswer = document.querySelector(`#options button:nth-child(${index + 1})`).innerText; // Récupère la réponse de l'utilisateur
+        const correctAnswer = question.options[question.correct];
+        const correctText = userAnswer === correctAnswer ? "Bonne réponse" : `la bonne réponse était: ${correctAnswer}`; 
+        corrigeContainer.innerHTML += `<p><strong>Question ${index + 1} :</strong> ${correctText}</p>`;
+    });
+
+    document.getElementById('retry').style.display = 'block'; // Affiche le bouton pour refaire le quiz
+}
+
+function goToMenu() {
+    // Réinitialisation de l'état du quiz
+    document.getElementById('start-container').style.display = 'block'; // Affiche la page de démarrage
+    document.getElementById('quiz-container').style.display = 'none'; // Cache la page du quiz
+    document.getElementById('quiz').style.display = 'block'; // Assurez-vous que les questions sont visibles quand on revient
+    document.getElementById('result').innerText = ''; // Efface les résultats
+    document.getElementById('retry').style.display = 'none'; // Cache le bouton "Refaire le quiz"
+    document.getElementById('corrige-btn').style.display = 'none'; // Cache le bouton "Accéder au corrigé"
+    currentQuestionIndex = 0;
+    score = 0;
+    timeLeft = 60; // Réinitialise le chronomètre
+    isQuizFinished = false; // Réinitialise l'état du quiz
+}
+
+
+
 
 
