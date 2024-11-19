@@ -20,7 +20,6 @@ let currentQuestionIndex = 0;
 let score = 0;
 let timer; // Pour stocker le minuteur
 let timeLeft = 60; // Temps restant en secondes
-let isQuizFinished = false; // Vérifier si le quiz est terminé
 
 function startQuiz() {
     document.getElementById('start-container').style.display = 'none';
@@ -66,7 +65,6 @@ function startTimer() {
     timerElement.innerText = `Temps restant : ${timeLeft}s`;
 
     timer = setInterval(() => {
-        if (isQuizFinished) return; // Si le quiz est terminé, on arrête le minuteur
         timeLeft--;
         timerElement.innerText = `Temps restant : ${timeLeft}s`;
 
@@ -79,7 +77,6 @@ function startTimer() {
 
 function endQuiz() {
     clearInterval(timer); // S'assure que le minuteur est arrêté
-    isQuizFinished = true; // Le quiz est maintenant terminé
     document.getElementById('quiz').style.display = 'none';
     document.getElementById('result').innerText = `Vous avez obtenu ${score} sur ${quizData.length}`;
     document.getElementById('retry').style.display = 'block';
@@ -90,13 +87,13 @@ function retryQuiz() {
     currentQuestionIndex = 0;
     score = 0;
     timeLeft = 60; // Réinitialise le chronomètre
-    isQuizFinished = false; // Réinitialise l'état du quiz
     document.getElementById('quiz').style.display = 'block';
     document.getElementById('result').innerText = '';
     document.getElementById('retry').style.display = 'none';
     document.getElementById('corrige-btn').style.display = 'none'; // Cache le bouton de corrigé
+    document.getElementById('close-corrige').style.display = 'none'; // Cache la croix pour fermer le corrigé
     startTimer(); // Redémarre le chronomètre
-    loadQuestion();
+    loadQuestion(); // Charge la première question
 }
 
 function showCorrige() {
@@ -110,21 +107,32 @@ function showCorrige() {
     });
 
     document.getElementById('retry').style.display = 'block'; // Affiche le bouton pour refaire le quiz
+    document.getElementById('corrige-btn').style.display = 'none'; // Cache le bouton "Accéder au corrigé"
 }
 
+function closeCorrige() {
+    document.getElementById('result').innerHTML = ''; // Vide le corrigé
+    document.getElementById('close-corrige').style.display = 'none'; // Cache la croix
+    document.getElementById('corrige-btn').style.display = 'block'; // Réaffiche le bouton "Accéder au corrigé"
+}
+
+// Fonction pour revenir au menu principal
 function goToMenu() {
-    // Réinitialisation de l'état du quiz
-    document.getElementById('start-container').style.display = 'block'; // Affiche la page de démarrage
-    document.getElementById('quiz-container').style.display = 'none'; // Cache la page du quiz
-    document.getElementById('quiz').style.display = 'block'; // Assurez-vous que les questions sont visibles quand on revient
-    document.getElementById('result').innerText = ''; // Efface les résultats
+    document.getElementById('start-container').style.display = 'block'; // Affiche la page de départ
+    document.getElementById('quiz-container').style.display = 'none'; // Cache le quiz
+    document.getElementById('result').innerHTML = ''; // Vide les résultats
     document.getElementById('retry').style.display = 'none'; // Cache le bouton "Refaire le quiz"
     document.getElementById('corrige-btn').style.display = 'none'; // Cache le bouton "Accéder au corrigé"
-    currentQuestionIndex = 0;
-    score = 0;
-    timeLeft = 60; // Réinitialise le chronomètre
-    isQuizFinished = false; // Réinitialise l'état du quiz
+    document.getElementById('close-corrige').style.display = 'none'; // Cache la croix
+    currentQuestionIndex = 0; // Réinitialise l'index des questions
+    score = 0; // Réinitialise le score
+    timeLeft = 60; // Réinitialise le temps
+    clearInterval(timer); // Arrête le minuteur
 }
+
+
+
+
 
 
 

@@ -13,21 +13,26 @@
         <p class="timer-info">Vous avez un temps imparti de 1 minute</p>
     </div>
     <div class="quiz-container" id="quiz-container" style="display: none;">
-        <div id="timer">Temps restant : 60s</div> <!-- Chronomètre -->
-        <button class="menu-btn" id="menu-btn" onclick="goToMenu()">Revenir au menu</button>
+        <!-- Revenir au menu button -->
+        <button class="back-to-menu" id="back-to-menu" onclick="goToMenu()">Revenir au menu</button>
+
+        <div id="timer">Temps restant : 60s</div>
         <div id="quiz">
             <div class="question-counter" id="question-counter">Question 1 sur 3</div>
             <div class="question" id="question">Chargement de la question...</div>
             <div class="options" id="options"></div>
         </div>
         <div id="result"></div>
-        <button class="corrige-btn" id="corrige-btn" style="display: none;" onclick="showCorrige()">Accéder au corrigé</button> <!-- Nouveau bouton -->
         <button class="retry-btn" id="retry" style="display: none;" onclick="retryQuiz()"> Refaire le Quiz </button>
+        <button class="corrige-btn" id="corrige-btn" style="display: none;" onclick="showCorrige()">Accéder au corrigé</button>
+        <button class="close-corrige" id="close-corrige" style="display: none;" onclick="closeCorrige()">&#10005;</button>
     </div>
     <footer>Agence Menway Emploi Angers</footer>
     <script src="script.js"></script>
 </body>
 </html>
+
+
 
 
 
